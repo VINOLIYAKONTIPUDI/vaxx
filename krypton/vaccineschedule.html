@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VaxTracker - Vaccine Schedule</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #8b5cf6;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(45deg, #8b5cf6, #a855f7);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #64748b;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #8b5cf6;
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .user-menu {
+            position: relative;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #f59e0b, #f97316);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Main Layout */
+        .main-container {
+            display: flex;
+            min-height: calc(100vh - 80px);
+        }
+
+        .sidebar {
+            width: 250px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem 0;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            color: #64748b;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background: linear-gradient(90deg, rgba(139, 92, 246, 0.1), transparent);
+            color: #8b5cf6;
+            border-right: 3px solid #8b5cf6;
+        }
+
+        .menu-icon {
+            width: 20px;
+            height: 20px;
+            background: currentColor;
+             -webkit-mask-size: contain;
+            mask-size: contain;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+        }
+
+        .icon-dashboard { 
+            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z'/%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m8 5 4-4 4 4'/%3E%3C/svg%3E");
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z'/%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m8 5 4-4 4 4'/%3E%3C/svg%3E");
+        }
+        .icon-children { 
+            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z'/%3E%3C/svg%3E");
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z'/%3E%3C/svg%3E");
+        }
+        .icon-schedule { 
+            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'/%3E%3C/svg%3E");
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'/%3E%3C/svg%3E");
+        }
+        .icon-reminders { 
+            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M15 17h5l-5 5-5-5h5V3h0z'/%3E%3C/svg%3E");
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M15 17h5l-5 5-5-5h5V3h0z'/%3E%3C/svg%3E");
+        }
+        .icon-reports { 
+            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z'/%3E%3C/svg%3E");
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z'/%3E%3C/svg%3E");
+        }
+
+        /* Main Content */
+        .content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .filter-group label {
+            font-weight: 500;
+            color: #475569;
+        }
+        .filter-group-right {
+            margin-left: auto;
+        }
+
+        .filter-select, .filter-input {
+            padding: 0.5rem 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            font-size: 0.875rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background: #8b5cf6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #7c3aed;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #475569;
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e1;
+        }
+
+        /* Content Cards */
+        .content-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 2rem;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            gap: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1e293b;
+            flex: 1;
+        }
+
+        /* Child Tabs */
+        .child-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .child-tab {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-weight: 500;
+            color: #64748b;
+            transition: all 0.3s ease;
+        }
+
+        .child-tab.active {
+            background: #8b5cf6;
+            color: white;
+        }
+
+        .child-tab:hover:not(.active) {
+            background: #f1f5f9;
+            color: #8b5cf6;
+        }
+
+        /* Schedule Table */
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .schedule-table th,
+        .schedule-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .schedule-table th {
+            background: #f8fafc;
+            font-weight: 600;
+            color: #475569;
+            position: sticky;
+            top: 0;
+        }
+
+        .schedule-table tr:hover {
+            background: #f8fafc;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .status-completed { background: #d1fae5; color: #059669; }
+        .status-upcoming { background: #fef3c7; color: #d97706; }
+        .status-overdue { background: #fee2e2; color: #dc2626; }
+        .status-scheduled { background: #dbeafe; color: #2563eb; }
+
+        /* Age Group Sections */
+        .age-group {
+            margin-bottom: 2rem;
+        }
+
+        .age-group-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: linear-gradient(90deg, #f8fafc, transparent);
+            border-radius: 8px;
+            border-left: 4px solid #8b5cf6;
+        }
+
+        .age-group-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .age-group-progress {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .age-group-progress-label {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .progress-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: conic-gradient(#10b981 0deg 288deg, #e2e8f0 288deg 360deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #059669;
+        }
+
+        /* Vaccine Cards */
+        .vaccine-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .vaccine-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .vaccine-card:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .vaccine-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .vaccine-name {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+        }
+
+        .vaccine-description {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .vaccine-details {
+            margin-top: 1rem;
+        }
+
+        .vaccine-detail {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .vaccine-detail-label {
+            color: #64748b;
+        }
+
+        .vaccine-detail-value {
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            border-radius: 6px;
+        }
+
+        .btn-urgent {
+            background: #ef4444;
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                order: 2;
+            }
+
+            .filter-bar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .child-tabs {
+                flex-wrap: wrap;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .vaccine-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content-card, .vaccine-card {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .timeline-view {
+            display: none;
+        }
+
+        .timeline-view.active {
+            display: block;
+        }
+
+        .table-view.active {
+            display: block;
+        }
+
+        .table-view {
+            display: none;
+        }
+
+        /* Filter result indicators */
+        .filter-results {
+            margin-bottom: 1rem;
+            padding: 0.75rem 1rem;
+            background: #f1f5f9;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: #64748b;
+            display: none;
+        }
+
+        .clear-filters {
+            margin-left: 0.5rem;
+            font-size: 0.75rem;
+            text-decoration: underline;
+            cursor: pointer;
+            color: #8b5cf6;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <div class="logo-icon">V</div>
+            VaxTracker
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="children.html">Children</a></li>
+                <li><a href="#" class="active">Schedule</a></li>
+                <li><a href="reports.html">Reports</a></li>
+                <li><a href="settings.html">Settings</a></li>
+            </ul>
+        </nav>
+        <div class="user-menu">
+            <div class="user-avatar" onclick="toggleUserMenu()">JD</div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html"><div class="menu-icon icon-dashboard"></div> dashboard</a></li>
+                <li><a href="vaccineschedule.html" class="active"><div class="menu-icon icon-schedule"></div> Vaccine Schedule</a></li>
+                <li><a href="reminders.html"><div class="menu-icon icon-reminders"></div> Reminders</a></li>
+                <li><a href="settings.html"><div class="menu-icon icon-reports"></div> settings</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1>Vaccine Schedule</h1>
+                <p>Comprehensive vaccination timeline for all your children</p>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <label for="childFilter">Child:</label>
+                    <select class="filter-select" id="childFilter">
+                        <option value="all">All Children</option>
+                        <option value="Ramya">Ramya (5 years)</option>
+                        <option value="Ram">Ram (2 years)</option>
+                        <option value="Vinoliya">vinoliya (1 year)</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="statusFilter">Status:</label>
+                    <select class="filter-select" id="statusFilter" title="Filter by vaccine status">
+                        <option value="all">All Status</option>
+                        <option value="completed">Completed</option>
+                        <option value="upcoming">Upcoming</option>
+                        <option value="overdue">Overdue</option>
+                        <option value="scheduled">Scheduled</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Date Range:</label>
+                    <input type="date" class="filter-input" id="startDate" title="Select start date" placeholder="Start date">
+                <div class="filter-group filter-group-right">
+                    <button class="btn btn-secondary" id="tableViewBtn" onclick="toggleView('table')">Table View</button>
+                    <button class="btn btn-primary" id="timelineViewBtn" onclick="toggleView('timeline')">Timeline View</button>
+                    <button class="btn btn-primary" onclick="exportSchedule()">Export Schedule</button>
+                </div>
+                    <button class="btn btn-primary" id="timelineViewBtn2" onclick="toggleView('timeline')">Timeline View</button>
+                    <button class="btn btn-primary" onclick="exportSchedule()">Export Schedule</button>
+                </div>
+            </div>
+
+            <!-- Child Tabs -->
+            <div class="content-card">
+                <div class="child-tabs">
+                    <button class="child-tab active" onclick="selectChild('all')">All Children</button>
+                    <button class="child-tab" onclick="selectChild('Ramya')">Ramya (5y)</button>
+                    <button class="child-tab" onclick="selectChild('Ram')">Ram (2y)</button>
+                    <button class="child-tab" onclick="selectChild('Vinoliya')">Vinoliya (1y)</button>
+                </div>
+
+                <!-- Filter Results Display -->
+                <div id="filterResults" class="filter-results">
+                    <span id="resultsText"></span>
+                    <span class="clear-filters" onclick="clearAllFilters()">Clear all filters</span>
+                </div>
+
+                <!-- Table View -->
+                <div id="tableView" class="table-view active">
+                    <div class="card-header">
+                        <h2 class="card-title">Complete Vaccination Schedule</h2>
+                        <button class="btn btn-primary">Add Custom Vaccine</button>
+                    <div id="noResultsMessage" class="no-results">
+                        <h3>No vaccines found</h3>
+                        <p>Try adjusting your filters to see more results.</p>
+                    </div>
+                    </div>
+                    <table class="schedule-table" id="scheduleTable">
+                        <thead>
+                            <tr>
+                                <th>Child</th>
+                                <th>Vaccine</th>
+                                <th>Age Due</th>
+                                <th>Date Due</th>
+                                <th>Date Given</th>
+                                <th>Status</th>
+                                <th>Next Due</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scheduleTableBody">
+                            <!-- Ramya's vaccines -->
+                            <tr data-child="Ramya" data-status="upcoming" data-date-due="2025-08-20">
+                                <td><strong>Ramya (5y)</strong></td>
+                                <td>MMR Booster</td>
+                                <td>4-6 years</td>
+                                <td>Aug 20, 2025</td>
+                                <td>-</td>
+                                <td><span class="status-badge status-upcoming">Upcoming</span></td>
+                                <td>-</td>
+                                <td>
+                                    <button class="btn btn-small btn-primary">Schedule</button>
+                                    <button class="btn btn-small btn-secondary">Remind</button>
+                                </td>
+                            </tr>
+                            <tr data-child="Ramya" data-status="upcoming" data-date-due="2025-09-15">
+                                <td><strong>Ramya (5y)</strong></td>
+                                <td>Polio Booster (IPV)</td>
+                                <td>4-6 years</td>
+                                <td>Sep 15, 2025</td>
+                                <td>-</td>
+                                <td><span class="status-badge status-upcoming">Upcoming</span></td>
+                                <td>-</td>
+                                <td>
+                                    <button class="btn btn-small btn-primary">Schedule</button>
+                                    <button class="btn btn-small btn-secondary">Remind</button>
+                                </td>
+                            </tr>
+                            <tr data-child="Ramya" data-status="completed" data-date-due="2025-07-10" data-date-given="2025-07-08">
+                                <td><strong>Ramya (5y)</strong></td>
+                                <td>DTaP</td>
+                                <td>4-6 years</td>
+                                <td>Jul 10, 2025</td>
+                                <td>Jul 8, 2025</td>
+                                <td><span class="status-badge status-completed">Completed</span></td>
+                                <td>10-12 years</td>
+                                <td>
+                                    <button class="btn btn-small btn-secondary">View Record</button>
+                                </td>
+                            </tr>
+                            
+                            <!-- Ram's vaccines -->
+                            <tr data-child="Ram" data-status="upcoming" data-date-due="2025-08-18">
+                                <td><strong>Ram (2y)</strong></td>
+                                <td>DTaP</td>
+                                <td>15-18 months</td>
+                                <td>Aug 18, 2025</td>
+                                <td>-</td>
+                                <td><span class="status-badge status-upcoming">Upcoming</span></td>
+                                <td>4-6 years</td>
+                                <td>
+                                    <button class="btn btn-small btn-primary">Schedule</button>
+                                    <button class="btn btn-small btn-secondary">Remind</button>
+                                </td>
+                            </tr>
+                            <tr data-child="Ram" data-status="scheduled" data-date-due="2025-09-01">
+                                <td><strong>Ram (2y)</strong></td>
+                                <td>Influenza</td>
+                                <td>Annual</td>
+                                <td>Sep 1, 2025</td>
+                                <td>-</td>
+                                <td><span class="status-badge status-scheduled">Scheduled</span></td>
+                                <td>Annual</td>
+                                <td>
+                                    <button class="btn btn-small btn-secondary">View Appointment</button>
+                                </td>
+                            </tr>
+                            <tr data-child="Ram" data-status="completed" data-date-due="2025-01-15" data-date-given="2025-01-12">
+                                <td><strong>Ram (2y)</strong></td>
+                                <td>MMR</td>
+                                <td>12-15 months</td>
+                                <td>Jan 15, 2025</td>
+                                <td>Jan 12, 2025</td>
+                                <td><span class="status-badge status-completed">Completed</span></td>
+                                <td>4-6 years</td>
+                                <td>
+                                    <button class="btn btn-small btn-secondary">View Record</button>
+                                </td>
+                            </tr>
+                            
+                            <!-- Vinoliya's vaccines -->
+                            <tr data-child="Vinoliya" data-status="overdue" data-date-due="2025-08-10">
+                                <td><strong>Vinoliya (1y)</strong></td>
+                                <td>Hepatitis A</td>
+                                <td>12-23 months</td>
+                                    <button class="btn btn-small btn-urgent">Urgent</button>
+                                <td>-</td>
+                                <td><span class="status-badge status-overdue">Overdue</span></td>
+                                <td>6 months later</td>
+                                <td>
+                                    <button class="btn btn-small btn-urgent">Urgent</button>
+                                    <button class="btn btn-small btn-secondary">Remind</button>
+                                </td>
+                            </tr>
+                            <tr data-child="Vinoliya" data-status="upcoming" data-date-due="2025-08-25">
+                                <td><strong>Vinoliya (1y)</strong></td>
+                                <td>Varicella (Chickenpox)</td>
+                                <td>12-15 months</td>
+                                <td>Aug 25, 2025</td>
+                                <td>-</td>
+                                <td><span class="status-badge status-upcoming">Upcoming</span></td>
+                                <td>4-6 years</td>
+                                <td>
+                                    <button class="btn btn-small btn-primary">Schedule</button>
+                                    <button class="btn btn-small btn-secondary">Remind</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Timeline View -->
+                <div id="timelineView" class="timeline-view">
+                                <span class="age-group-progress-label">3/4 completed</span>
+                        <div class="age-group-header">
+                            <div class="age-group-title">Birth - 2 Months</div>
+                            <div class="age-group-progress">
+                                <span class="age-group-progress-label">3/4 completed</span>
+                                <div class="progress-circle">75%</div>
+                            </div>
+                        </div>
+                        <div class="vaccine-grid">
+                            <div class="vaccine-card">
+                                <div class="vaccine-card-header">
+                                    <div>
+                                        <div class="vaccine-name">Hepatitis B</div>
+                                        <div class="vaccine-description">First dose at birth</div>
+                                    </div>
+                                    <span class="status-badge status-completed">Completed</span>
+                                </div>
+                                <div class="vaccine-details">
+                                    <div class="vaccine-detail">
+                                        <span class="vaccine-detail-label">Age Due:</span>
+                                        <span class="vaccine-detail-value">Birth</span>
+                                    </div>
+                                    <div class="vaccine-detail">
+                                        <span class="vaccine-detail-label">Date Given:</span>
+                                        <span class="vaccine-detail-value">Feb 14, 2024 (Vinoliya)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="vaccine-card">
+                                <div class="vaccine-card-header">
+                                    <div>
+                                        <div class="vaccine-name">DTaP</div>
+                                        <div class="vaccine-description">Diphtheria, Tetanus, Pertussis</div>
+                                    </div>
+                                    <span class="status-badge status-completed">Completed</span>
+                                </div>
+                                <div class="vaccine-details">
+                                    <div class="vaccine-detail">
+                                        <span class="vaccine-detail-label">Age Due:</span>
+                                        <span class="vaccine-detail-value">2 months</span>
+                                    </div>
+                                    <div class="vaccine-detail">
+                                        <span class="vaccine-detail-label">Date Given:</span>
+                                        <span class="vaccine-detail-value">Apr 14, 2024 (Vinoliya)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Sample vaccine data structure
+        const vaccineData = [
+            {
+                child: 'Ramya',
+                childName: 'Ramya (5y)',
+                vaccine: 'MMR Booster',
+                ageDue: '4-6 years',
+                dateDue: '2025-08-20',
+                dateGiven: null,
+                status: 'upcoming',
+                nextDue: '-'
+            },
+            {
+                child: 'Ramya',
+                childName: 'Ramya (5y)',
+                vaccine: 'Polio Booster (IPV)',
+                ageDue: '4-6 years',
+                dateDue: '2025-09-15',
+                dateGiven: null,
+                status: 'upcoming',
+                nextDue: '-'
+            },
+            {
+                child: 'Ramya',
+                childName: 'Ramya (5y)',
+                vaccine: 'DTaP',
+                ageDue: '4-6 years',
+                dateDue: '2025-07-10',
+                dateGiven: '2025-07-08',
+                status: 'completed',
+                nextDue: '10-12 years'
+            },
+            {
+                child: 'Ram',
+                childName: 'Ram (2y)',
+                vaccine: 'DTaP',
+                ageDue: '15-18 months',
+                dateDue: '2025-08-18',
+                dateGiven: null,
+                status: 'upcoming',
+                nextDue: '4-6 years'
+            },
+            {
+                child: 'Ram',
+                childName: 'Ram (2y)',
+                vaccine: 'Influenza',
+                ageDue: 'Annual',
+                dateDue: '2025-09-01',
+                dateGiven: null,
+                status: 'scheduled',
+                nextDue: 'Annual'
+            },
+            {
+                child: 'Ram',
+                childName: 'Ram (2y)',
+                vaccine: 'MMR',
+                ageDue: '12-15 months',
+                dateDue: '2025-01-15',
+                dateGiven: '2025-01-12',
+                status: 'completed',
+                nextDue: '4-6 years'
+            },
+            {
+                child: 'Vinoliya',
+                childName: 'Vinoliya (1y)',
+                vaccine: 'Hepatitis A',
+                ageDue: '12-23 months',
+                dateDue: '2025-08-10',
+                dateGiven: null,
+                status: 'overdue',
+                nextDue: '6 months later'
+            },
+            {
+                child: 'Vinoliya',
+                childName: 'Vinoliya (1y)',
+                vaccine: 'Varicella (Chickenpox)',
+                ageDue: '12-15 months',
+                dateDue: '2025-08-25',
+                dateGiven: null,
+                status: 'upcoming',
+                nextDue: '4-6 years'
+            }
+        ];
+
+        // Initialize filters
+        let currentFilters = {
+            child: 'all',
+            status: 'all',
+            startDate: null,
+            endDate: null
+        };
+
+        let currentView = 'table';
+
+        // Add event listeners when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            setupFilterListeners();
+            setDefaultDates();
+            applyFilters();
+        });
+
+        function setupFilterListeners() {
+            // Child filter
+            document.getElementById('childFilter').addEventListener('change', function() {
+                currentFilters.child = this.value;
+                updateChildTabs(this.value);
+                applyFilters();
+            });
+
+            // Status filter
+            document.getElementById('statusFilter').addEventListener('change', function() {
+                currentFilters.status = this.value;
+                applyFilters();
+            });
+
+            // Date filters
+            document.getElementById('startDate').addEventListener('change', function() {
+                currentFilters.startDate = this.value;
+                applyFilters();
+            });
+
+            document.getElementById('endDate').addEventListener('change', function() {
+                currentFilters.endDate = this.value;
+                applyFilters();
+            });
+        }
+
+        function setDefaultDates() {
+            const today = new Date();
+            const sixMonthsFromNow = new Date();
+            sixMonthsFromNow.setMonth(today.getMonth() + 6);
+
+            // Set default date range to show next 6 months
+            document.getElementById('startDate').value = today.toISOString().split('T')[0];
+            document.getElementById('endDate').value = sixMonthsFromNow.toISOString().split('T')[0];
+
+            currentFilters.startDate = today.toISOString().split('T')[0];
+            currentFilters.endDate = sixMonthsFromNow.toISOString().split('T')[0];
+        }
+
+        function applyFilters() {
+            const tableRows = document.querySelectorAll('#scheduleTableBody tr');
+            let visibleCount = 0;
+            let hasActiveFilters = false;
+
+            // Check if any filters are active
+            if (currentFilters.child !== 'all' || currentFilters.status !== 'all' || 
+                currentFilters.startDate || currentFilters.endDate) {
+                hasActiveFilters = true;
+            }
+
+            tableRows.forEach(row => {
+                let showRow = true;
+
+                // Child filter
+                if (currentFilters.child !== 'all') {
+                    const rowChild = row.getAttribute('data-child');
+                    if (rowChild !== currentFilters.child) {
+                        showRow = false;
+                    }
+                }
+
+                // Status filter
+                if (currentFilters.status !== 'all' && showRow) {
+                    const rowStatus = row.getAttribute('data-status');
+                    if (rowStatus !== currentFilters.status) {
+                        showRow = false;
+                    }
+                }
+
+                // Date range filter
+                if ((currentFilters.startDate || currentFilters.endDate) && showRow) {
+                    const rowDateDue = row.getAttribute('data-date-due');
+                    if (rowDateDue) {
+                        const rowDate = new Date(rowDateDue);
+                        
+                        if (currentFilters.startDate) {
+                            const startDate = new Date(currentFilters.startDate);
+                            if (rowDate < startDate) {
+                                showRow = false;
+                            }
+                        }
+                        
+                        if (currentFilters.endDate && showRow) {
+                            const endDate = new Date(currentFilters.endDate);
+                            if (rowDate > endDate) {
+                                showRow = false;
+                            }
+                        }
+                    }
+                }
+
+                // Show/hide row
+                if (showRow) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            // Update results display
+            updateResultsDisplay(visibleCount, hasActiveFilters);
+            
+            // Show/hide no results message
+            const noResultsMessage = document.getElementById('noResultsMessage');
+            const scheduleTable = document.getElementById('scheduleTable');
+            
+            if (visibleCount === 0) {
+                noResultsMessage.style.display = 'block';
+                scheduleTable.style.display = 'none';
+            } else {
+                noResultsMessage.style.display = 'none';
+                scheduleTable.style.display = 'table';
+            }
+        }
+
+        function updateResultsDisplay(count, hasActiveFilters) {
+            const resultsDiv = document.getElementById('filterResults');
+            const resultsText = document.getElementById('resultsText');
+            
+            if (hasActiveFilters) {
+                resultsDiv.style.display = 'block';
+                resultsText.textContent = `Showing ${count} vaccine${count !== 1 ? 's' : ''} matching your filters.`;
+            } else {
+                resultsDiv.style.display = 'none';
+            }
+        }
+
+        function selectChild(childId) {
+            // Update child tabs
+            const childTabs = document.querySelectorAll('.child-tab');
+            childTabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update filter
+            currentFilters.child = childId;
+            document.getElementById('childFilter').value = childId;
+            
+            // Apply filters
+            applyFilters();
+        }
+
+        function updateChildTabs(selectedChild) {
+            const childTabs = document.querySelectorAll('.child-tab');
+            childTabs.forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.getAttribute('onclick').includes(`'${selectedChild}'`)) {
+                    tab.classList.add('active');
+                }
+            });
+        }
+
+        function clearAllFilters() {
+            // Reset all filters
+            currentFilters = {
+                child: 'all',
+                status: 'all',
+                startDate: null,
+                endDate: null
+            };
+
+            // Update form elements
+            document.getElementById('childFilter').value = 'all';
+            document.getElementById('statusFilter').value = 'all';
+            document.getElementById('startDate').value = '';
+            document.getElementById('endDate').value = '';
+
+            // Update child tabs
+            const childTabs = document.querySelectorAll('.child-tab');
+            childTabs.forEach(tab => tab.classList.remove('active'));
+            document.querySelector('.child-tab').classList.add('active');
+
+            // Apply filters (will show all)
+            applyFilters();
+        }
+
+        function toggleView(view) {
+            const tableView = document.getElementById('tableView');
+            const timelineView = document.getElementById('timelineView');
+            const tableBtn = document.getElementById('tableViewBtn');
+            const timelineBtn = document.getElementById('timelineViewBtn');
+
+            if (view === 'table') {
+                tableView.classList.add('active');
+                timelineView.classList.remove('active');
+                tableBtn.classList.remove('btn-secondary');
+                tableBtn.classList.add('btn-primary');
+                timelineBtn.classList.remove('btn-primary');
+                timelineBtn.classList.add('btn-secondary');
+                currentView = 'table';
+            } else {
+                tableView.classList.remove('active');
+                timelineView.classList.add('active');
+                tableBtn.classList.remove('btn-primary');
+                tableBtn.classList.add('btn-secondary');
+                timelineBtn.classList.remove('btn-secondary');
+                timelineBtn.classList.add('btn-primary');
+                currentView = 'timeline';
+            }
+        }
+
+        function exportSchedule() {
+            // Get filtered data
+            const visibleRows = Array.from(document.querySelectorAll('#scheduleTableBody tr'))
+                .filter(row => row.style.display !== 'none');
+
+            if (visibleRows.length === 0) {
+                alert('No vaccines to export with current filters.');
+                return;
+            }
+
+            // Create CSV content
+            let csvContent = 'Child,Vaccine,Age Due,Date Due,Date Given,Status,Next Due\n';
+            
+            visibleRows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                const rowData = [
+                    cells[0].textContent.trim(),
+                    cells[1].textContent.trim(),
+                    cells[2].textContent.trim(),
+                    cells[3].textContent.trim(),
+                    cells[4].textContent.trim(),
+                    cells[5].textContent.trim(),
+                    cells[6].textContent.trim()
+                ];
+                csvContent += rowData.map(field => `"${field}"`).join(',') + '\n';
+            });
+
+            // Download CSV
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'vaccine-schedule.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        function toggleUserMenu() {
+            // Placeholder for user menu functionality
+            console.log('User menu clicked');
+        }
+
+        // Additional helper functions for interactive features
+        function scheduleVaccine(vaccineId) {
+            alert('Schedule vaccine functionality would be implemented here');
+        }
+
+        function setReminder(vaccineId) {
+            alert('Reminder functionality would be implemented here');
+        }
+
+        function viewRecord(vaccineId) {
+            alert('View record functionality would be implemented here');
+        }
+
+        function viewAppointment(vaccineId) {
+            alert('View appointment functionality would be implemented here');
+        }
+    </script>
+</body>
+</html>

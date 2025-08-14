@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - VaxTracker</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-shield-virus"></i>
+                    <span>VaxTracker</span>
+                </div>
+                <nav class="main-nav">
+                    <a href="index.html" data-translate="dashboard">Dashboard</a>
+                    <a href="settings.html" class="active" data-translate="settings">Settings</a>
+                </nav>
+                <div class="header-actions">
+                    <div class="language-toggle" id="languageToggle"></div>
+                    <button class="btn btn-secondary" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span data-translate="logout">Logout</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <div class="page-header">
+                    <h1 data-translate="settings">Settings</h1>
+                    <p>Manage your account preferences and notification settings</p>
+                </div>
+
+                <div class="settings-grid">
+                    <!-- Language Settings -->
+                    <div class="settings-card">
+                        <div class="settings-header">
+                            <i class="fas fa-language"></i>
+                            <h3 data-translate="language_preference">Language Preference</h3>
+                        </div>
+                        <div class="settings-content">
+                            <div class="form-group">
+                                <label for="languageSelect" data-translate="language_preference">Language Preference</label>
+                                <select id="languageSelect" class="form-control">
+                                    <option value="en">English</option>
+                                    <option value="hi">हिंदी (Hindi)</option>
+                                    <option value="te">తెలుగు (Telugu)</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-primary" id="saveLanguageBtn">
+                                <i class="fas fa-save"></i>
+                                <span data-translate="save">Save</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Notification Settings -->
+                    <div class="settings-card">
+                        <div class="settings-header">
+                            <i class="fas fa-bell"></i>
+                            <h3 data-translate="notification_settings">Notification Settings</h3>
+                        </div>
+                        <div class="settings-content">
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="smsNotifications" checked>
+                                    <span class="checkmark"></span>
+                                    <span data-translate="sms_notifications">SMS Notifications</span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="emailNotifications" checked>
+                                    <span class="checkmark"></span>
+                                    <span data-translate="email_notifications">Email Notifications</span>
+                                </label>
+                            </div>
+                            <button class="btn btn-primary" id="saveNotificationBtn">
+                                <i class="fas fa-save"></i>
+                                <span data-translate="save">Save</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Test SMS -->
+                    <div class="settings-card">
+                        <div class="settings-header">
+                            <i class="fas fa-sms"></i>
+                            <h3 data-translate="test_sms">Test SMS</h3>
+                        </div>
+                        <div class="settings-content">
+                            <p>Test SMS functionality to ensure reminders are working properly.</p>
+                            <button class="btn btn-secondary" id="testSmsBtn">
+                                <i class="fas fa-paper-plane"></i>
+                                <span data-translate="test_sms">Test SMS</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/translations.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/settings.js"></script>
+</body>
+</html>
