@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VaxTrack - Child Vaccination Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-shield-virus"></i>
+                <span>VaxTrack</span>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#vaccines" class="nav-link">Vaccines</a>
+                <a href="#about" class="nav-link">About</a>
+                <div class="nav-buttons">
+                    <button class="btn btn-outline"><a href="sign-in.html"> Login</a></button>
+                    <button class="btn btn-primary" onclick="showSignupModal()">Sign Up</button>
+                </div>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Keep Your Child's <span class="highlight">Vaccinations</span> on Track
+                </h1>
+                <p class="hero-description">
+                    Never miss a vaccination again. VaxTrack provides personalized vaccine schedules, 
+                    automated reminders, and comprehensive tracking for your child's health journey.
+                </p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary btn-large" onclick="showSignupModal()">
+                        Get Started Free
+                    </button>
+                    <button class="btn btn-outline btn-large" onclick="scrollToSection('features')">
+                        Learn More
+                    </button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="floating-card card-1">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Next: MMR Vaccine</span>
+                </div>
+                <div class="floating-card card-2">
+                    <i class="fas fa-bell"></i>
+                    <span>Reminder Sent</span>
+                </div>
+                <div class="floating-card card-3">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>85% Complete</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Why Choose VaxTrack?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-friends"></i>
+                    </div>
+                    <h3>Child Profiles</h3>
+                    <p>Create detailed profiles with name, DOB, gender, blood group, and photos for each child.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3>Dynamic Schedule</h3>
+                    <p>Auto-calculated vaccine schedules based on your child's date of birth and medical history.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3>Smart Reminders</h3>
+                    <p>Get notified via SMS, Email, and WhatsApp before each vaccination due date.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <h3>Vaccine Information</h3>
+                    <p>Learn about each vaccine's importance, benefits, and possible side effects.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3>Secure & Private</h3>
+                    <p>Your data is encrypted and stored securely with parent-controlled access.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>Multi-language</h3>
+                    <p>Available in Hindi, English, Telugu, and more regional languages.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vaccines Timeline Section -->
+    <section id="vaccines" class="vaccines-timeline">
+        <div class="container">
+            <h2 class="section-title">Vaccination Timeline (0-12 Years)</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        <span>Birth</span>
+                    </div>
+                    <div class="timeline-content">
+                        <h4>Birth Vaccines</h4>
+                        <ul>
+                            <li>BCG (Tuberculosis)</li>
+                            <li>Hepatitis B (1st dose)</li>
+                            <li>OPV (Polio - Birth dose)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        <span>6 Weeks</span>
+                    </div>
+                    <div class="timeline-content">
+                        <h4>6 Weeks Vaccines</h4>
+                        <ul>
+                            <li>DPT (1st dose)</li>
+                            <li>IPV (1st dose)</li>
+                            <li>Hepatitis B (2nd dose)</li>
+                            <li>Hib (1st dose)</li>
+                            <li>Rotavirus (1st dose)</li>
+                            <li>PCV (1st dose)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        <span>10 Weeks</span>
+                    </div>
+                    <div class="timeline-content">
+                        <h4>10 Weeks Vaccines</h4>
+                        <ul>
+                            <li>DPT (2nd dose)</li>
+                            <li>IPV (2nd dose)</li>
+                            <li>Hib (2nd dose)</li>
+                            <li>Rotavirus (2nd dose)</li>
+                            <li>PCV (2nd dose)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        <span>14 Weeks</span>
+                    </div>
+                    <div class="timeline-content">
+                        <h4>14 Weeks Vaccines</h4>
+                        <ul>
+                            <li>DPT (3rd dose)</li>
+                            <li>IPV (3rd dose)</li>
+                            <li>Hib (3rd dose)</li>
+                            <li>Rotavirus (3rd dose)</li>
+                            <li>PCV (3rd dose)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        <span>9-12 Months</span>
+                    </div>
+                    <div class="timeline-content">
+                        <h4>9-12 Months Vaccines</h4>
+                        <ul>
+                            <li>MMR (1st dose)</li>
+                            <li>Typhoid</li>
+                            <li>Hepatitis A (1st dose)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        <span>15-18 Months</span>
+                    </div>
+                    <div class="timeline-content">
+                        <h4>15-18 Months Vaccines</h4>
+                        <ul>
+                            <li>MMR (2nd dose)</li>
+                            <li>Varicella (Chickenpox)</li>
+                            <li>PCV Booster</li>
+                            <li>DPT Booster</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        <span>4-6 Years</span>
+                    </div>
+                    <div class="timeline-content">
+                        <h4>School Entry Vaccines</h4>
+                        <ul>
+                            <li>DPT Booster</li>
+                            <li>OPV Booster</li>
+                            <li>MMR Booster</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        <span>10-12 Years</span>
+                    </div>
+                    <div class="timeline-content">
+                        <h4>Pre-teen Vaccines</h4>
+                        <ul>
+                            <li>Tdap Booster</li>
+                            <li>HPV (for girls)</li>
+                            <li>Meningococcal</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('loginModal')">&times;</span>
+            <h2>Login to VaxTrack</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                    <span class="error-message" id="loginEmailError"></span>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                    <span class="error-message" id="loginPasswordError"></span>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Login</button>
+            </form>
+            <p class="modal-footer">
+                Don't have an account? <a href="#" onclick="switchModal('loginModal', 'signupModal')">Sign up</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('signupModal')">&times;</span>
+            <h2>Create Your Account</h2>
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" required>
+                    <span class="error-message" id="signupNameError"></span>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" required>
+                    <span class="error-message" id="signupEmailError"></span>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" required>
+                    <span class="error-message" id="signupPasswordError"></span>
+                    <div class="password-requirements">
+                        <small>Password must contain at least 8 characters, one uppercase, one lowercase, one number, and one special character.</small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" required>
+                    <span class="error-message" id="confirmPasswordError"></span>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Sign Up</button>
+            </form>
+            <p class="modal-footer">
+                Already have an account? <a href="#" onclick="switchModal('signupModal', 'loginModal')">Login</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- OTP Verification Modal -->
+    <div id="otpModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('otpModal')">&times;</span>
+            <h2>Verify Your Email</h2>
+            <p>We've sent a 6-digit code to your email address.</p>
+            <form id="otpForm">
+                <div class="otp-container">
+                    <input type="text" class="otp-input" maxlength="1" id="otp1" placeholder="0" title="Enter first digit of OTP">
+                    <input type="text" class="otp-input" maxlength="1" id="otp2" placeholder="0" title="Enter second digit of OTP">
+                    <input type="text" class="otp-input" maxlength="1" id="otp3" placeholder="0" title="Enter third digit of OTP">
+                    <input type="text" class="otp-input" maxlength="1" id="otp4" placeholder="0" title="Enter fourth digit of OTP">
+                    <input type="text" class="otp-input" maxlength="1" id="otp5">
+                    <input type="text" class="otp-input" maxlength="1" id="otp6">
+                </div>
+                <span class="error-message" id="otpError"></span>
+                <button type="submit" class="btn btn-primary btn-full">Verify</button>
+                <button type="button" class="btn btn-outline btn-full" onclick="resendOTP()">Resend Code</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard (Hidden initially) -->
+    <div id="dashboard" class="dashboard" style="display: none;">
+        <div class="dashboard-header">
+            <h1>Welcome to VaxTrack Dashboard</h1>
+            <button class="btn btn-outline" onclick="logout()">Logout</button>
+        </div>
+        <div class="dashboard-content">
+            <div class="dashboard-card">
+                <h3>Add Child Profile</h3>
+                <form id="childForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="childName">Child's Name</label>
+                            <input type="text" id="childName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="childDOB">Date of Birth</label>
+                            <input type="date" id="childDOB" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="childGender">Gender</label>
+                            <select id="childGender" required>
+                                <option value="">Select Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="childBloodGroup">Blood Group</label>
+                            <select id="childBloodGroup" required>
+                                <option value="">Select Blood Group</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="childPhoto">Child's Photo</label>
+                        <input type="file" id="childPhoto" accept="image/*">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Child</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
